@@ -1,0 +1,39 @@
+import os
+
+def export_to_obsidian(vault_path, glitch_data):
+    """
+    Noir Institute: Logic-to-Vault Pipeline.
+    Automatically generates a Red Team report for your Second Brain.
+    """
+    # Sanitize filename for Obsidian
+    filename = f"Glitch-{glitch_data['reason'].replace(' ', '_')}.md"
+    full_path = os.path.join(vault_path, filename)
+    
+    template = f"""---
+type: red-team-audit
+status: intercepted
+glitch_type: {glitch_data['reason']}
+estimated_save: $1,200
+tags: [noir-logic, revenue-recovery, digital-twin]
+---
+
+# 🔍 Noir Institute: Glitch Diagnostic
+
+## Executive Summary
+> **Twin Persona:** "{glitch_data['narrative']}"
+
+### 🔬 The "Butterfly Effect" Logic
+* **Detected Conflict:** {glitch_data['reason']}
+* **Root Cause:** System desync between Epic and the Payer Truth Table.
+* **Potential Fallout:** 100% denial loop requiring manual appeal labor.
+
+### 🧠 Second Brain Linkage
+* **Related Logic:** [[Coordination of Benefits Hierarchy]]
+"""
+    
+    with open(full_path, "w") as f:
+        f.write(template)
+    print(f"REPORT GENERATED: {full_path}")
+
+# Example usage for your local Obsidian vault
+# export_to_obsidian("/Users/Sakari/Documents/Obsidian/Noir_Vault", last_glitch_result)
