@@ -1,0 +1,21 @@
+def resolve_eligibility_status(internal, payer, hierarchy=None):
+    """
+    Noir Institute of Applied Logic: Diagnostic Engine
+    """
+    # 1. Check for Sync Desync (The basic glitch)
+    if internal == "ACTIVE" and payer == "TERMINATED":
+        return {
+            "status": "CONFLICT",
+            "reason": "Termination Desync",
+            "narrative": "I've detected a logic leak: Epic thinks they're covered, but the Payer portal says they're out. If we bill this, it's an automatic write-off."
+        }
+
+    # 2. The Ghost Coverage (The priority glitch)
+    if hierarchy and hierarchy['detected_primary'] != hierarchy['actual_primary']:
+        return {
+            "status": "CONFLICT",
+            "reason": "Ghost Coverage",
+            "narrative": f"Wait, the COB stack is upside down. Epic is trying to bill {hierarchy['detected_primary']} first, but the 'Truth Table' says {hierarchy['actual_primary']} is the real lead. This will trigger a 100% silent denial."
+        }
+    
+    return {"status": "VALID", "narrative": "Logic holds. Systems are in sync."}
