@@ -1,0 +1,32 @@
+# Case Study: [AI Behavior Name]
+**Date:** {{date}}
+**Status:** #audit/in-progress 
+**System:** #protocol/python 
+
+---
+
+### I. Subjective (Goal)
+*What is the AI supposed to be "diagnosing" or deciding right now?*
+- 
+
+### II. Objective (Vitals/Data)
+*What "patient data" (inputs) is the AI receiving?*
+- **State Variables:** (e.g., Player_Dist: 10, Health: 50)
+- **Environment:** (e.g., "Obstacle detected at X:50, Y:20")
+- **Confidence Score:** (How "sure" was the AI of its choice?)
+
+### III. Assessment (The Audit)
+*Why did the "Clinical Logic" fail or succeed?*
+- **Observed Behavior:** - **Root Cause:** (e.g., "The Weight for 'Player Distance' was too low, causing a delayed response.")
+- **Error Type:** #audit/false-positive OR #audit/false-negative
+
+### IV. Plan (The Treatment)
+*How will we adjust the code to improve the diagnostic outcome?*
+- [ ] **Code Change:** (e.g., "Adjusting the 'Threshold' in the Python script from 0.5 to 0.75.")
+- [ ] **SQL Check:** "Query the `training_logs` to see if this error has occurred before."
+- [ ] **Retest:** Run the simulation again and verify the fix.
+
+---
+## Related Documentation
+- [[The Diagnostic Cross-Walk]]
+- [[Python_Logic_Library]]
