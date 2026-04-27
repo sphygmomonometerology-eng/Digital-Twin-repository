@@ -1,22 +1,28 @@
 from src.logic.eligibility_rules import resolve_eligibility_status
+from src.logic.truth_table import PayerTruthTable
 
-def test_detect_termination_desync():
+def test_ghost_coverage_with_truth_table():
     """
-    RED TEAM TASK: Ensure the system catches a sync failure 
-    where a patient was terminated in the Payer portal 
-    but remains 'Active' in the internal EMR (Epic).
+    RED TEAM TASK: Enforce COB priority via Truth Table.
+    Ensures that even if Epic is 'Active,' it correctly identifies 
+    the hierarchy swap that leads to denials.
     """
+    # 1. The Glitchy Data from Epic
+    # Epic thinks 'Cigna' is primary (priority 1)
+    internal_stack = ["Cigna", "Medicare"] 
     
-    # Mock data simulating a sync lag
-    internal_emr_status = "ACTIVE"
-    payer_portal_status = "TERMINATED"
-    
-    result = resolve_eligibility_status(internal_emr_status, payer_portal_status)
-    
-    # If this test FAILS, it means your 'Fix' didn't catch the glitch.
+    # 2. The Reality Check
+    # The actual payers discovered in the audit
+    discovered_payers = ["Medicare", "Cigna"]
+
+    # 3. Consult the Digital Twin
+    # Now it uses the Truth Table to see that Medicare MUST be primary
+    result = resolve_eligibility_status(internal_stack, discovered_payers)
+
+    # Validation
     assert result["status"] == "CONFLICT"
-    assert result["action"] == "FLAG_FOR_AUDIT"
-    print(f"SUCCESS: Caught the {result['reason']}")
+    assert "Medicare" in result["narrative"]
+    print(f"SUCCESS: {result['narrative']}")
 
 if __name__ == "__main__":
-    test_detect_termination_desync()
+    test_ghost_coverage_with_truth_table()
